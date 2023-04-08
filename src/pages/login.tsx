@@ -5,8 +5,10 @@ import Input from '~/components/forms/Input';
 import Button from '~/components/buttons/Button';
 import Label from '~/components/forms/Label';
 import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 const Login = () => {
     // const { login } = useAuth();
+    const [error, setError] = useState<string | null>(null);
 
     const schema = z.object({
         email: z.string().email({ message: "البريد الالكتروني غير صحيح" }),
@@ -18,7 +20,6 @@ const Login = () => {
         email: string,
         password: string
     }) => {
-        // await login(values);
 
         const result = await signIn("credentials", {
             redirect: false,
@@ -27,6 +28,14 @@ const Login = () => {
         });
 
         console.log(result);
+
+        if(!result?.ok) {
+            setError("البريد الالكتروني او كلمة المرور غير صحيحة");
+
+            setTimeout(() => {
+                setError(null);
+            }, 3000)
+        }
 
     };
 
@@ -51,6 +60,7 @@ const Login = () => {
             {({ errors, touched, values, handleChange }) => (
 
                 <Form className='text-black'>
+                    {error && <p className='text-red-500'>{error}</p>}
 
                     <Label text='Email' />
                     <Input type='email'
