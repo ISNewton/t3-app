@@ -4,7 +4,7 @@ interface LabelProps {
     className?: string;
     text: string;
 }
-const Input = (props: LabelProps) => {
+const Label = (props: LabelProps) => {
 
 
     return (
@@ -12,3 +12,5 @@ const Input = (props: LabelProps) => {
             className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${props.className ?? ''}`}>{props.text}</label>
     )
 }
+
+export default Label

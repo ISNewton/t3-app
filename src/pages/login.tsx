@@ -1,6 +1,8 @@
 import { Field, Form, Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
+import Input from '~/components/forms/Input';
+import Button from '~/components/buttons/Button';
 const Login = () => {
     // const { login } = useAuth();
 
@@ -37,12 +39,16 @@ const Login = () => {
             {({ errors, touched }) => (
 
                 <Form className='text-black'>
+                    <Input type='email'
+                        touched={touched.email}
+                        error={errors.email} 
+                        name="email"
+                         />
 
-                    <Field touched={touched.email} errors={errors.email} name="email" type="email" />
+                    {/* <button type="submit">Submit</button>
+                     */}
+                     <Button text='Submit' />
 
-                    {errors.email && touched.email ? <div>{errors.email}</div> : null}
-
-                    <button type="submit">Submit</button>
 
                 </Form>
 
