@@ -4,17 +4,33 @@ import { z } from 'zod';
 import Input from '~/components/forms/Input';
 import Button from '~/components/buttons/Button';
 import Label from '~/components/forms/Label';
+import { signIn } from 'next-auth/react';
 const Login = () => {
     // const { login } = useAuth();
 
-    const handleSubmit = async () => {
-        // await login(values);
-    };
-
     const schema = z.object({
         email: z.string().email({ message: "البريد الالكتروني غير صحيح" }),
+        password: z.string().min(8)
 
     })
+
+    const handleSubmit = async (values: {
+        email: string,
+        password: string
+    }) => {
+        // await login(values);
+
+        const result = await signIn("credentials", {
+            redirect: false,
+            email: values.email,
+            password: values.password,
+        });
+
+        console.log(result);
+
+    };
+
+
 
     return (
         <Formik
@@ -22,34 +38,40 @@ const Login = () => {
             initialValues={{
 
                 email: '',
+                password: ''
 
             }}
 
             validationSchema={toFormikValidationSchema(schema)}
 
-            onSubmit={() => {
-
-                // same shape as initial values
-
-                console.log(123);
-
-            }}
+            onSubmit={handleSubmit}
 
         >
 
-            {({ errors, touched }) => (
+            {({ errors, touched, values, handleChange }) => (
 
                 <Form className='text-black'>
+
                     <Label text='Email' />
                     <Input type='email'
                         touched={touched.email}
-                        error={errors.email} 
+                        error={errors.email}
                         name="email"
-                         />
+                        value={values.email}
+                        onChange={handleChange}
+                    />
 
-                    {/* <button type="submit">Submit</button>
-                     */}
-                     <Button text='Submit' />
+
+                    <Label text='Password' />
+                    <Input type='password'
+                        touched={touched.password}
+                        error={errors.password}
+                        name="password"
+                        value={values.password}
+                        onChange={handleChange}
+                    />
+
+                    <Button type='submit' text='submit' />
 
 
                 </Form>
