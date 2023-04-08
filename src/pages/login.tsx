@@ -3,6 +3,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { z } from 'zod';
 import Input from '~/components/forms/Input';
 import Button from '~/components/buttons/Button';
+import Label from '~/components/forms/Label';
 const Login = () => {
     // const { login } = useAuth();
 
@@ -39,6 +40,7 @@ const Login = () => {
             {({ errors, touched }) => (
 
                 <Form className='text-black'>
+                    <Label text='Email' />
                     <Input type='email'
                         touched={touched.email}
                         error={errors.email} 
