@@ -8,6 +8,7 @@ import Button from "~/components/buttons/Button"
 import Checkbox from "~/components/forms/Checkbox"
 import Input from "~/components/forms/Input"
 import Label from "~/components/forms/Label"
+import Title from "~/components/headings/title"
 import { api } from "~/utils/api"
 
 const CreatePost = () => {
@@ -27,7 +28,7 @@ const CreatePost = () => {
 
     return (
         <>
-            <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Add post</h2>
+        <Title title="Add post" />
         
         <Formik
 
