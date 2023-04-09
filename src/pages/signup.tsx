@@ -128,10 +128,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     const result = await getSession(context)
 
-    console.log(22,result);
-    
 
-    if (!result) {
+    if (result) {
         return {
             redirect: {
                 destination: "/",
@@ -143,10 +141,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
         props: {
-            session: result,
-            ...context
-        }
-    }
+        },
+    };
 }
 
 export default Signup

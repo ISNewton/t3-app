@@ -37,7 +37,7 @@ const Header = () => {
 
                         {status === "loading" && <Loader />}
 
-                        {status === "authenticated" && <AuthenticatedButtons />}
+                        {/* {status === "authenticated" && <AuthenticatedButtons />} */}
 
                         {status === "unauthenticated" && <UnauthenticatedButtons />}
 
@@ -86,6 +86,8 @@ const UnauthenticatedButtons = () => (
 
 const AuthenticatedButtons = () => {
 
+
+    console.log("Logged out");
 
     const handleLogout = async () => {
 
