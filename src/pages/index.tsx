@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import TableList from "~/components/tables/table-list";
 import Button from "~/components/buttons/Button";
+import LinkButton from "~/components/buttons/LinkButton";
 
 const Home = () => {
 
@@ -26,12 +27,17 @@ const Home = () => {
         <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6x">Check out my amazing posts </h1>
         <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl ">Feel free to edit the posts as long as you are the author.</p>
         {session.status === 'authenticated' && (
-          <Button className="my-8 ">
-            <Link href={{
-              pathname: '/posts/create',
-            }}>Add post</Link>
 
-          </Button>
+          <LinkButton pathname='/posts/create' >Add post</LinkButton>
+          // <p 
+          // role="button"
+          // className="my-8 ">
+            
+          //   <Link href={{
+          //     pathname: '/posts/create',
+          //   }}>Add post</Link>
+
+          // </p>
         )}
 
 

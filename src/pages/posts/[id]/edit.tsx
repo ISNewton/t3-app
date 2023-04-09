@@ -11,6 +11,7 @@ import Button from "~/components/buttons/Button";
 import Checkbox from "~/components/forms/Checkbox";
 import Input from "~/components/forms/Input";
 import Label from "~/components/forms/Label";
+import Title from "~/components/headings/title";
 import { createSsrCaller } from "~/server/api/root";
 import { api } from "~/utils/api";
 
@@ -34,6 +35,8 @@ const Edit: React.FC<Props> = ({ post }) => {
 
 
     return (
+        <>
+        <Title title="Edit post" />
         <Formik
 
             initialValues={{
@@ -118,6 +121,7 @@ const Edit: React.FC<Props> = ({ post }) => {
             )}
 
         </Formik>
+        </>
     )
 }
 

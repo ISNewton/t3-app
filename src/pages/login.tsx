@@ -40,9 +40,9 @@ const Login = () => {
             }, 3000)
         } else {
 
-            toast.success('Welcome back !',{
+            toast.success('Welcome back !', {
                 theme: "colored",
-              })
+            })
             replace("/")
 
         }
@@ -52,55 +52,62 @@ const Login = () => {
 
 
     return (
-        <Formik
-
-            initialValues={{
-
-                email: '',
-                password: ''
-
-            }}
-
-            validationSchema={toFormikValidationSchema(schema)}
-
-            onSubmit={handleSubmit}
-
-        >
-
-            {({ errors, touched, values, handleChange }) => (
-
-                <Form className='text-black'>
-                    {error && <p className='text-red-500'>{error}</p>}
-
-                    <Label text='Email' />
-                    <Input type='email'
-                        touched={touched.email}
-                        error={errors.email}
-                        name="email"
-                        value={values.email}
-                        onChange={handleChange}
-                        id='email'
-                    />
+        <>
+            <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Login</h2>
 
 
-                    <Label text='Password' />
-                    <Input type='password'
-                        touched={touched.password}
-                        error={errors.password}
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        id='password'
-                    />
+            <Formik
 
-                    <Button type='submit'  >submit</Button>
+                initialValues={{
+
+                    email: '',
+                    password: ''
+
+                }}
+
+                validationSchema={toFormikValidationSchema(schema)}
+
+                onSubmit={handleSubmit}
+
+            >
+
+                {({ errors, touched, values, handleChange }) => (
 
 
-                </Form>
+                    <Form className='text-black'>
+                        {error && <p className='text-red-500'>{error}</p>}
 
-            )}
+                        <Label text='Email' />
+                        <Input type='email'
+                            touched={touched.email}
+                            error={errors.email}
+                            name="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            id='email'
+                        />
 
-        </Formik>
+
+                        <Label text='Password' />
+                        <Input type='password'
+                            touched={touched.password}
+                            error={errors.password}
+                            name="password"
+                            value={values.password}
+                            onChange={handleChange}
+                            id='password'
+                        />
+
+                        <Button type='submit'  >submit</Button>
+
+
+                    </Form>
+
+                )}
+
+            </Formik>
+        </>
+
     );
 };
 
@@ -109,7 +116,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const result = await getSession(context)
 
     console.log(result);
-    
+
 
     if (result) {
         return {

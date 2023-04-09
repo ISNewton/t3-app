@@ -26,6 +26,9 @@ const CreatePost = () => {
 
 
     return (
+        <>
+            <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Add post</h2>
+        
         <Formik
 
             initialValues={{
@@ -103,6 +106,8 @@ const CreatePost = () => {
             )}
 
         </Formik>
+        </>
+
     )
 
 }

@@ -30,6 +30,9 @@ const Signup = () => {
     const { mutateAsync } = api.signUp.signUp.useMutation()
 
     return (
+        <>
+            <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl">Sing up</h2>
+
         <Formik
 
             initialValues={{
@@ -114,6 +117,7 @@ const Signup = () => {
             )}
 
         </Formik>
+        </>
     )
 }
 
