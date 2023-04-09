@@ -4,6 +4,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Button from "~/components/buttons/Button";
@@ -57,9 +58,12 @@ const Edit: React.FC<Props> = ({ post }) => {
                     })
                     console.log(result);
 
+                    toast.success('Post saved !', {
+                        theme: "colored",
+                    })
+
                     replace('/')
 
-                
                 }
                 catch (e: any) {
                     console.log(e);
@@ -124,9 +128,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const session = await getSession(ctx)
 
     console.log(session);
-    
-    
-    
+
+
+
     const { id } = ctx.query
     if (!id || typeof id !== 'string') {
         return {

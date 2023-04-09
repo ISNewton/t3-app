@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { toast } from "react-toastify"
 import { z } from "zod"
 import { toFormikValidationSchema } from "zod-formik-adapter"
 import Button from "~/components/buttons/Button"
@@ -42,6 +43,10 @@ const CreatePost = () => {
 
                 try {
                     const result = await mutateAsync(values)
+
+                    toast.success('Post created  ,Now start editing !',{
+                        theme: "colored"
+                      })
 
                     replace('/')
 

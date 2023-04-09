@@ -13,8 +13,6 @@ const Home = () => {
 
   const session = useSession()
 
-
-
   return (
     <>
       <Head>
@@ -25,7 +23,8 @@ const Home = () => {
 
       <div className="w-100">
 
-        <h1 className="text-black text-lg my-3 text-center">Posts available</h1>
+        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6x">Check out my amazing posts </h1>
+        <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl ">Feel free to edit the posts as long as you are the author.</p>
         {session.status === 'authenticated' && (
           <Button className="my-8 ">
             <Link href={{
