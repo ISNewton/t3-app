@@ -1,10 +1,11 @@
 import { Post } from "@prisma/client";
+import Link from "next/link";
 
 type TableRowProps = {
     post: Post
 }
 
-const TableRow = ({post}:TableRowProps) => {
+const TableRow = ({ post }: TableRowProps) => {
 
 
     return (
@@ -14,18 +15,24 @@ const TableRow = ({post}:TableRowProps) => {
 
             </th>
             <td className="px-6 py-4">
-            {post.title}
+                {post.title}
 
             </td>
             <td className="px-6 py-4">
-            {post.description}
+                {post.description}
 
             </td>
             <td className="px-6 py-4">
-            {post.isActive ? 'Yes' : 'No'}
+                {post.isActive ? 'Yes' : 'No'}
             </td>
             <td className="pdatax-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <Link href={{
+                    pathname: `/posts/${post.id}/edit`,
+                }}
+                    className="font-medium text-blue-600 dark:text-blue-500
+                 hover:underline"
+
+                >Edit</Link>
             </td>
         </tr>
     )

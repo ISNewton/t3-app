@@ -14,6 +14,9 @@ const createPostInput = z.object({
   isActive: z.boolean()
 })
 
+const getActivePostInput =  z.string()
+
+
 
 export const postsRouter = createTRPCRouter({
   home: publicProcedure.query(({ input }) => {
@@ -25,6 +28,16 @@ export const postsRouter = createTRPCRouter({
     })
 
   }),
+  getActivePost: publicProcedure
+    .input(getActivePostInput)
+    .query(({ input:id }) => {
+      return prisma.post.findFirst({
+        where: {
+          id,
+          isActive: true
+        }
+      })
+    }),
   createPost: protectedProcedure
     .input(createPostInput)
     .mutation(async ({ input, ctx }) => {

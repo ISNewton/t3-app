@@ -1,7 +1,7 @@
 import { NextComponentType } from "next";
 
 import React from "react";
-import TableRow from "./table-item";
+import TableRow from "./table-row";
 import { Post } from "@prisma/client";
 
 
