@@ -60,6 +60,9 @@ export const postsRouter = createTRPCRouter({
         throw new Error('Post already exists')
       }
 
+      console.log('ctx.session.user.id', ctx.session.user);
+      
+
       return prisma.post.create({
         data: {
           title: input.title,
@@ -67,7 +70,7 @@ export const postsRouter = createTRPCRouter({
           isActive: input.isActive,
           user: {
             connect: {
-              id: ctx.session.user.id
+              id: ctx.session.user.id ?? 'unknown user id'
             }
           }
         }

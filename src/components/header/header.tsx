@@ -85,7 +85,6 @@ const UnauthenticatedButtons = () => (
 const AuthenticatedButtons = () => {
 
 
-    console.log("Logged out");
 
     const handleLogout = async () => {
 

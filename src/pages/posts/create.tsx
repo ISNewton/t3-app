@@ -40,11 +40,9 @@ const CreatePost = () => {
 
                 try {
                     const result = await mutateAsync(values)
-                    console.log(result);
 
                 }
                 catch (e: any) {
-                    console.log(e);
                     setError(e.message)
                 }
             }}
