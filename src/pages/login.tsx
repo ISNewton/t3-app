@@ -83,7 +83,7 @@ const Login = () => {
                         id='password'
                     />
 
-                    <Button type='submit' text='submit' />
+                    <Button type='submit'  >submit</Button>
 
 
                 </Form>
