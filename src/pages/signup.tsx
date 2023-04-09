@@ -5,24 +5,37 @@ import { toFormikValidationSchema } from "zod-formik-adapter"
 import Button from "~/components/buttons/Button"
 import Input from "~/components/forms/Input"
 import Label from "~/components/forms/Label"
+import { api } from "~/utils/api"
+
+
+const schema = z.object({
+    name: z.string().min(3),
+    email: z.string().email(),
+    password: z.string().min(8)
+})
 
 const Signup = () => {
 
-    const [error, setError] = useState<string | null>(null);
 
 
-    const schema = z.object({
-        name: z.string().min(3),
-        email: z.string().email({ message: "البريد الالكتروني غير صحيح" }),
-        password: z.string().min(8)
-    })
+    // const [error, setError] = useState<string | null>(null);
 
-    function handleSubmit(values: {
+    const { mutateAsync, mutate } = api.signUp.signUp.useMutation()
+
+
+    async function handleSubmit(values: {
         name: string,
         email: string,
         password: string
     }) {
-        console.log(values);
+
+
+        const result = 1
+
+        mutateAsync()
+
+        console.log(result, 121212);
+
     }
 
     return (
@@ -37,14 +50,23 @@ const Signup = () => {
 
             validationSchema={toFormikValidationSchema(schema)}
 
-            onSubmit={handleSubmit}
+            onSubmit={async (values, action) => {
+                console.log(2323);
+
+                const result = 1
+
+                await mutateAsync()
+
+                console.log(result, 121212);
+
+            }}
 
         >
 
             {({ errors, touched, values, handleChange }) => (
 
                 <Form className='text-black'>
-                    {error && <p className='text-red-500'>{error}</p>}
+                    {/* {error && <p className='text-red-500'>{error}</p>} */}
 
                     <Label text='name' />
                     <Input type='name'
