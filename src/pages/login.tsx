@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
 import { redirect } from 'next/dist/server/api-utils';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 const Login = () => {
     const { replace } = useRouter();
     const [error, setError] = useState<string | null>(null);
@@ -38,6 +39,10 @@ const Login = () => {
                 setError(null);
             }, 3000)
         } else {
+
+            toast.success('Welcome back !',{
+                theme: "colored",
+              })
             replace("/")
 
         }

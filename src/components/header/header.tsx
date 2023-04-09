@@ -2,11 +2,12 @@ import { getSession, signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import Loader from "../loaders/loader";
 import Button from "../buttons/Button";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const Header = () => {
 
     const session = useSession()
-
 
     return (
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -85,6 +86,9 @@ const UnauthenticatedButtons = () => (
 const AuthenticatedButtons = () => {
 
 
+    const { replace } = useRouter()
+
+
 
     const handleLogout = async () => {
 
@@ -92,6 +96,15 @@ const AuthenticatedButtons = () => {
             redirect: false,
         })
         console.log("Logged out");
+
+        toast.success('Bye bye !',{
+            theme: "colored",
+          })
+
+        replace("/login")
+
+
+
 
     }
 

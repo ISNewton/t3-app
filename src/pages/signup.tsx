@@ -11,6 +11,7 @@ import { api } from "~/utils/api"
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router"
+import { toast } from "react-toastify"
 
 
 const schema = z.object({
@@ -51,6 +52,10 @@ const Signup = () => {
                         email: values.email,
                         password: values.password,
                     });
+
+                    toast.success('Signed up  !',{
+                        theme: "colored",
+                      })
 
                     replace("/")
 
@@ -116,9 +121,6 @@ const Signup = () => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     const result = await getSession(context)
-
-    console.log(result);
-    
 
 
     if (result) {
