@@ -69,6 +69,7 @@ const Login = () => {
                         name="email"
                         value={values.email}
                         onChange={handleChange}
+                        id='email'
                     />
 
 
@@ -79,6 +80,7 @@ const Login = () => {
                         name="password"
                         value={values.password}
                         onChange={handleChange}
+                        id='password'
                     />
 
                     <Button type='submit' text='submit' />

@@ -55,17 +55,13 @@ const Signup = () => {
 
                 try {
 
-                    const result = await mutateAsync(values)
-                    console.log(result, 121212);
-
-
+                    await mutateAsync(values)
 
                     await signIn("credentials", {
                         redirect: false,
                         email: values.email,
                         password: values.password,
                     });
-
 
                 }
                 catch (error: any) {
@@ -76,9 +72,6 @@ const Signup = () => {
                     }, 5000);
 
                 }
-
-                signIn
-
 
             }}
 

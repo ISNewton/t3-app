@@ -11,6 +11,7 @@ import { prisma } from "~/server/db";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import { comparePasswords } from "~/utils/manageHash";
+import { User } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -39,22 +40,15 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-        // session.user.role = user.role; <-- put other properties on the session here
-      }
-      return session;
-    },
-  },
   adapter: PrismaAdapter(prisma),
   providers: [
     // DiscordProvider({
     //   clientId: env.DISCORD_CLIENT_ID,
     //   clientSecret: env.DISCORD_CLIENT_SECRET,
     // }),
-    Credentials({
+    
+    Credentials(
+      {
       // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
       // The credentials is used to generate a suitable form on the sign in page.
@@ -66,7 +60,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Add logic here to look up the user from the credentials supplied
 
         const loginSchema = z.object({
           email: z.string().email(),
@@ -111,6 +104,27 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  callbacks: {
+    async session({ session, token }) {
+      // if (session.user) {
+      //   session.user.id = parseInt(user.id);
+      // }
+
+      if (token.user) {
+        type SessionUser = User;
+        session.user = token.user as SessionUser;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) token.user = user;
+      return token;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
+
 };
 
 /**
