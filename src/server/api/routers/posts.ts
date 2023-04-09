@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { now } from "next-auth/client/_utils";
 import { z } from "zod";
 
@@ -5,6 +6,7 @@ import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
+  postOwnerProcedure,
 } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 
@@ -88,7 +90,17 @@ export const postsRouter = createTRPCRouter({
       })
 
       if (!postExists) {
-        throw new Error('Post does not exist')
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Post does not exist'
+        })
+      }
+
+      if (postExists.userId !== ctx.session.user.id) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'You are not authorized to update this post'
+        })
       }
 
       return prisma.post.update({

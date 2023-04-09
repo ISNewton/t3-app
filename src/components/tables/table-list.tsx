@@ -32,12 +32,9 @@ const TableList = (props: TableListProps) => {
                         <th scope="col" className="px-6 py-3">
                             Is active
                         </th>
-                        {session.status === 'authenticated' && (
                             <th scope="col" className="px-6 py-3">
                                 Action
-                            </th>
-                        )}
-                
+                            </th>                
             </tr>
                 </thead>
                 <tbody>

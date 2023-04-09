@@ -118,8 +118,8 @@ export const publicProcedure = t.procedure;
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 
   console.log('ctx.sessionssssssssssssssssssssssssssss', ctx.session);
-  
-  
+
+
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
@@ -131,6 +131,40 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
+const enforceIsPostOwner = t.middleware(async ({ ctx, next }: any) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  console.log('ctx.input.id', ctx);
+  
+  const postId = ctx.input.id;
+
+
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+  });
+
+  console.log('my middleware', post );
+  console.log(postId , 23232323);
+  
+  
+
+  if (!post) {
+    throw new TRPCError({ code: "NOT_FOUND", message: "Post not found" });
+  }
+
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+// q: how to create middleware that checks if user is post owner?
+//
+
 /**
  * Protected (authenticated) procedure
  *
@@ -140,3 +174,4 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const postOwnerProcedure = t.procedure.use(enforceIsPostOwner);

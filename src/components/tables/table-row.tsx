@@ -17,7 +17,6 @@ const TableRow = ({ post }: TableRowProps) => {
 
     const router = useRouter()
 
-
     const handleDeletePost = async () => {
 
         await mutateAsync(post.id)
@@ -44,29 +43,30 @@ const TableRow = ({ post }: TableRowProps) => {
             <td className="px-6 py-4">
                 {post.isActive ? 'Yes' : 'No'}
             </td>
-            {session.status === 'authenticated' && (
 
-            <td className="px-6 py-4">
-                <div className="flex ">
+                <td className="px-6 py-4">
+                    {session.data?.user.id === post.userId && (
 
-                    <Link href={{
-                        pathname: `/posts/${post.id}/edit`,
-                    }}
-                        className="font-medium text-blue-600 dark:text-blue-500
+                        <div className="flex ">
+
+                            <Link href={{
+                                pathname: `/posts/${post.id}/edit`,
+                            }}
+                                className="font-medium text-blue-600 dark:text-blue-500
                  hover:underline mr-3"
-                    >Edit</Link>
-                    <p
-                        onClick={handleDeletePost}
-                        role="button"
-                        className="
+                            >Edit</Link>
+                            <p
+                                onClick={handleDeletePost}
+                                role="button"
+                                className="
                                     font-medium text-red-500 dark:text-red-500
                                   hover:underline"
-                    >Delete</p>
-                </div>
+                            >Delete</p>
+                        </div>
+                    )}
 
-            </td>
-            )}
 
+                </td>
         </tr>
     )
 }

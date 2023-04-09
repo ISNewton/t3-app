@@ -1,6 +1,7 @@
 import { Post } from "@prisma/client";
 import { Form, Formik } from "formik";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { z } from "zod";
@@ -16,8 +17,6 @@ interface Props {
     post: Post
 }
 const Edit: React.FC<Props> = ({ post }) => {
-    console.log(post);
-
 
     const schema = z.object({
         title: z.string().min(8),
@@ -120,6 +119,14 @@ const Edit: React.FC<Props> = ({ post }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
+
+    //
+    const session = await getSession(ctx)
+
+    console.log(session);
+    
+    
+    
     const { id } = ctx.query
     if (!id || typeof id !== 'string') {
         return {
@@ -132,7 +139,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const post = await client.posts.getActivePost(id)
 
-    if (!post) {
+    if (!post || session?.user?.id !== post.userId) {
         return {
             notFound: true
         }
@@ -140,7 +147,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     return {
         props: {
-            post: JSON.parse(JSON.stringify(post))
+            post: JSON.parse(JSON.stringify(post)),
         }
     }
 
