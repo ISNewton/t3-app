@@ -40,7 +40,7 @@ export const signUpRouter = createTRPCRouter({
                 }
             })
             console.log(user);
-            
+
             return {
                 id: user.id,
                 name: user.name,
@@ -48,3 +48,5 @@ export const signUpRouter = createTRPCRouter({
             };
         }),
 });
+
+

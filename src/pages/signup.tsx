@@ -8,6 +8,8 @@ import Button from "~/components/buttons/Button"
 import Input from "~/components/forms/Input"
 import Label from "~/components/forms/Label"
 import { api } from "~/utils/api"
+import { GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 
 
 const schema = z.object({
@@ -110,7 +112,7 @@ const Signup = () => {
                         onChange={handleChange}
                     />
 
-                    <Button type='submit' text='submit' />
+                    <Button type='submit' >submit</Button>
 
 
                 </Form>
@@ -119,6 +121,32 @@ const Signup = () => {
 
         </Formik>
     )
+}
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+
+    const result = await getSession(context)
+
+    console.log(22,result);
+    
+
+    if (!result) {
+        return {
+            redirect: {
+                destination: "/",
+            },
+        }
+    }
+
+
+
+    return {
+        props: {
+            session: result,
+            ...context
+        }
+    }
 }
 
 export default Signup
