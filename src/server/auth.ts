@@ -106,22 +106,45 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
+      console.log("session callback");
 
-      if (token.user) {
-        type SessionUser = User;
-        session.user = token.user as SessionUser;
-      }
+      console.log("session", session);
+      console.log("token", token);
+
+
+      //q: how to fix auth status is unauthenticated after refresh page?
+      //a:
+      //  1. add user to token
+      //  2. add user to session
+      //  3. add user to jwt
+
+
+
+      // if (token.user) {
+      session.user = token.user as User;
+      // }
       return session;
     },
     async jwt({ token, user }) {
-      if (user) token.user = user;
+      console.log("jwt callback");
+      console.log("token", token);
+      console.log("user", user);
+
+
+
+      // if (user) token.user = user;
+      token.user = user;
       return token;
     },
   },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours,
+
   },
+    secret: process.env.NEXTAUTH_SECRET
+
 
 };
 
