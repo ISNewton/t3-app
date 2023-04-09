@@ -1,6 +1,7 @@
 import { Post } from "@prisma/client";
 import { Form, Formik } from "formik";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -29,6 +30,8 @@ const Edit: React.FC<Props> = ({ post }) => {
 
     const { mutateAsync } = api.posts.updatePost.useMutation()
 
+    const { replace } = useRouter();
+
 
     return (
         <Formik
@@ -55,6 +58,9 @@ const Edit: React.FC<Props> = ({ post }) => {
                     })
                     console.log(result);
 
+                    replace('/')
+
+                
                 }
                 catch (e: any) {
                     console.log(e);

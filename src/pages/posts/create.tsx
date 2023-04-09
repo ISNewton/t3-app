@@ -1,4 +1,5 @@
 import { Form, Formik } from "formik"
+import { useRouter } from "next/router"
 import { useState } from "react"
 import { z } from "zod"
 import { toFormikValidationSchema } from "zod-formik-adapter"
@@ -14,6 +15,7 @@ const CreatePost = () => {
 
     const { mutateAsync } = api.posts.createPost.useMutation()
 
+    const { replace } = useRouter();
 
     const schema = z.object({
         title: z.string().min(8),
@@ -40,6 +42,8 @@ const CreatePost = () => {
 
                 try {
                     const result = await mutateAsync(values)
+
+                    replace('/')
 
                 }
                 catch (e: any) {
