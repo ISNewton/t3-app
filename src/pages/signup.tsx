@@ -10,6 +10,7 @@ import Label from "~/components/forms/Label"
 import { api } from "~/utils/api"
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
+import { useRouter } from "next/router"
 
 
 const schema = z.object({
@@ -20,26 +21,12 @@ const schema = z.object({
 
 const Signup = () => {
 
+    const { replace } = useRouter();
 
 
     const [error, setError] = useState<string | null>(null);
 
-    const { mutateAsync, mutate } = api.signUp.signUp.useMutation()
-
-
-    async function handleSubmit(values: {
-        name: string,
-        email: string,
-        password: string
-    }) {
-
-
-        const result = 1
-
-
-        console.log(result, 121212);
-
-    }
+    const { mutateAsync } = api.signUp.signUp.useMutation()
 
     return (
         <Formik
@@ -64,6 +51,8 @@ const Signup = () => {
                         email: values.email,
                         password: values.password,
                     });
+
+                    replace("/")
 
                 }
                 catch (error: any) {
@@ -127,6 +116,9 @@ const Signup = () => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     const result = await getSession(context)
+
+    console.log(result);
+    
 
 
     if (result) {

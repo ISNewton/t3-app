@@ -46,54 +46,54 @@ export const authOptions: NextAuthOptions = {
     //   clientId: env.DISCORD_CLIENT_ID,
     //   clientSecret: env.DISCORD_CLIENT_SECRET,
     // }),
-    
+
     Credentials(
       {
-      // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Credentials",
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
-      credentials: {
-        email: { label: "Email", type: "email", placeholder: "Email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
+        // The name to display on the sign in form (e.g. "Sign in with...")
+        name: "Credentials",
+        // The credentials is used to generate a suitable form on the sign in page.
+        // You can specify whatever fields you are expecting to be submitted.
+        // e.g. domain, username, password, 2FA token, etc.
+        // You can pass any HTML attribute to the <input> tag through the object.
+        credentials: {
+          email: { label: "Email", type: "email", placeholder: "Email" },
+          password: { label: "Password", type: "password" },
+        },
+        async authorize(credentials) {
 
-        const loginSchema = z.object({
-          email: z.string().email(),
-          password: z.string().min(6),
-        });
+          const loginSchema = z.object({
+            email: z.string().email(),
+            password: z.string().min(6),
+          });
 
-        let input
+          let input
 
-        try {
-           input  = loginSchema.parse(credentials);
-        } catch {
-          return null;
-        }
-        const user = await prisma.user.findUnique({
-          where: { email: input.email },
-        });
+          try {
+            input = loginSchema.parse(credentials);
+          } catch {
+            return null;
+          }
+          const user = await prisma.user.findUnique({
+            where: { email: input.email },
+          });
 
-        if (!user) {
-          return null;
-        }
+          if (!user) {
+            return null;
+          }
 
-        const isValidPassword = comparePasswords(input.password, user.id);
+          const isValidPassword = comparePasswords(input.password, user.id);
 
-        if (!isValidPassword) {
-          return null;
-        }
-      
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-        };
-      },
-    }),
+          if (!isValidPassword) {
+            return null;
+          }
+
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+          };
+        },
+      }),
     /**
      * ...add more providers here.
      *
@@ -106,9 +106,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
-      // if (session.user) {
-      //   session.user.id = parseInt(user.id);
-      // }
 
       if (token.user) {
         type SessionUser = User;
@@ -123,6 +120,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 
 };

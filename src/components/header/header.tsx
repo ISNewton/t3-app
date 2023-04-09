@@ -1,12 +1,11 @@
-import { signOut, useSession } from "next-auth/react"
+import { getSession, signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import Loader from "../loaders/loader";
 import Button from "../buttons/Button";
 
 const Header = () => {
 
-    const { data: session, status } = useSession()
-
+    const session = useSession()
 
 
     return (
@@ -35,11 +34,10 @@ const Header = () => {
                             > Home </Link>
                         </li>
 
-                        {status === "loading" && <Loader />}
+                        {session.status === "loading" && <Loader />}
 
-                        {/* {status === "authenticated" && <AuthenticatedButtons />} */}
-
-                        {status === "unauthenticated" && <UnauthenticatedButtons />}
+                        {session.status === "authenticated" && <AuthenticatedButtons />}
+                        {session.status === "unauthenticated" && <UnauthenticatedButtons />}
 
 
                     </ul>

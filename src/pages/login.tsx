@@ -7,8 +7,10 @@ import Label from '~/components/forms/Label';
 import { getSession, signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { GetServerSidePropsContext } from 'next';
+import { redirect } from 'next/dist/server/api-utils';
+import { useRouter } from 'next/router';
 const Login = () => {
-    // const { login } = useAuth();
+    const { replace } = useRouter();
     const [error, setError] = useState<string | null>(null);
 
     const schema = z.object({
@@ -35,6 +37,9 @@ const Login = () => {
             setTimeout(() => {
                 setError(null);
             }, 3000)
+        } else {
+            replace("/")
+
         }
 
     };
@@ -97,6 +102,9 @@ const Login = () => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     const result = await getSession(context)
+
+    console.log(result);
+    
 
     if (result) {
         return {
