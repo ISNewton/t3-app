@@ -1,6 +1,7 @@
 import { NextComponentType } from "next";
 
 import React from "react";
+import TableRow from "./table-item";
 
 interface TableListProps {
     data: {
@@ -10,34 +11,36 @@ interface TableListProps {
 }
 const TableList: React.FC<TableListProps> = ({ data }) => {
     return (
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                <div className="overflow-hidden">
-                    <table className="min-w-full text-left text-sm font-light">
-                        <thead className="border-b font-medium dark:border-neutral-500">
-                            <tr>
-                                <th scope="col" className="px-6 py-4">#</th>
-                                <th scope="col" className="px-6 py-4">First</th>
-                                <th scope="col" className="px-6 py-4">Last</th>
-                                <th scope="col" className="px-6 py-4">Handle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.map((item) => (
-                                <tr className="border-b dark:border-neutral-500">
-                                    <td className="whitespace-nowrap px-6 py-4 font-medium">3</td>
-                                    <td className="whitespace-nowrap px-6 py-4">{item.id}</td>
-                                    <td className="whitespace-nowrap px-6 py-4">{item.name}</td>
-                                    <td className="whitespace-nowrap px-6 py-4">Wild</td>
-                                    <td className="whitespace-nowrap px-6 py-4">@twitter</td>
-                                </tr>
-                            ))}
+       
+<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" className="px-6 py-3">
+                    Product name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Color
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Category
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Price
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {data.map((row) => <TableRow row={row} />)}
+            
+           
+        </tbody>
+    </table>
+</div>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     );
 };
 
