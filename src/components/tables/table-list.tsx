@@ -34,7 +34,7 @@ const TableList: React.FC<TableListProps> = ({ data }) => {
             </tr>
         </thead>
         <tbody>
-            {data.map((row) => <TableRow row={row} />)}
+            {data.map((row) => <TableRow key={row.id} row={row} />)}
             
            
         </tbody>

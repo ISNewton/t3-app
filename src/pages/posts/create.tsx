@@ -6,10 +6,14 @@ import Button from "~/components/buttons/Button"
 import Checkbox from "~/components/forms/Checkbox"
 import Input from "~/components/forms/Input"
 import Label from "~/components/forms/Label"
+import { api } from "~/utils/api"
 
 const CreatePost = () => {
 
     const [error, setError] = useState<string | null>(null);
+
+    const { mutateAsync } = api.posts.createPost.useMutation()
+
 
     const schema = z.object({
         title: z.string().min(8),
@@ -31,11 +35,18 @@ const CreatePost = () => {
 
             validationSchema={toFormikValidationSchema(schema)}
 
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
                 console.log('submit');
-                console.log(values);
-                
 
+                try {
+                    const result = await mutateAsync(values)
+                    console.log(result);
+
+                }
+                catch (e: any) {
+                    console.log(e);
+                    setError(e.message)
+                }
             }}
 
         >
