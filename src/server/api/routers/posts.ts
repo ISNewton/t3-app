@@ -17,7 +17,7 @@ const createPostInput = z.object({
 const updatePostInput = z.object({
   id: z.string(),
   title: z.string().min(3),
-  description: z.string().min(10),
+  description: z.optional(z.string().min(10)),
   isActive: z.boolean()
 })
 

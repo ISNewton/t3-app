@@ -11,8 +11,10 @@ import Label from "~/components/forms/Label";
 import { createSsrCaller } from "~/server/api/root";
 import { api } from "~/utils/api";
 
-
-const Edit: React.FC<{post:Post}> = ({post}) => {
+interface Props {
+    post: Post
+}
+const Edit: React.FC<Props> = ({ post }) => {
     console.log(post);
 
 
@@ -25,7 +27,7 @@ const Edit: React.FC<{post:Post}> = ({post}) => {
 
     const [error, setError] = useState<string | null>(null);
 
-    const { mutateAsync } = api.posts.createPost.useMutation()
+    const { mutateAsync } = api.posts.updatePost.useMutation()
 
 
     return (
@@ -45,15 +47,19 @@ const Edit: React.FC<{post:Post}> = ({post}) => {
             onSubmit={async (values) => {
                 console.log('submit');
 
-                // try {
-                //     const result = await mutateAsync(values)
-                //     console.log(result);
+                try {
+                    const result = await mutateAsync({
+                        ...values,
+                        id: post.id,
+                        description: values.description ? values.description : ''
+                    })
+                    console.log(result);
 
-                // }
-                // catch (e: any) {
-                //     console.log(e);
-                //     setError(e.message)
-                // }
+                }
+                catch (e: any) {
+                    console.log(e);
+                    setError(e.message)
+                }
             }}
 
         >
