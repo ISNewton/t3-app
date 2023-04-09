@@ -12,44 +12,39 @@ import { hash } from "~/utils/manageHash";
 
 export const signUpRouter = createTRPCRouter({
     signUp: publicProcedure
-        // .input(z.object({
-        //     name: z.string(),
-        //     email: z.string(),
-        //     password: z.string()
-        // }))
+        .input(z.object({
+            name: z.string(),
+            email: z.string(),
+            password: z.string()
+        }))
 
-        .mutation( ({ input }) => {
+        .mutation(async ({ input }) => {
 
-            console.log(3434343344343);
-            return {
-                id: 1,
+
+            const userExists = await prisma.user.findUnique({
+                where: {
+                    email: input.email
+                }
+            })
+
+            if (userExists) {
+                throw new Error('User already exists')
             }
+
+            const user = await prisma.user.create({
+                data: {
+                    name: input.name,
+                    email: input.email,
+                    // password: hash(input.password)
+
+                }
+            })
+            console.log(user);
             
-
-            // const userExists = await prisma.user.findUnique({
-            //     where: {
-            //         email: input.email
-            //     }
-            // })
-
-            // if (userExists) {
-            //     throw new Error('User already exists')
-            // }
-
-            // const user = await prisma.user.create({
-            //     data: {
-            //         name: input.name,
-            //         email: input.email,
-            //         // password: hash(input.password)
-
-            //     }
-            // })
-            // console.log(user);
-            
-            // return {
-            //     id: user.id,
-            //     name: user.name,
-            //     email: user.email,
-            // };
+            return {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+            };
         }),
 });

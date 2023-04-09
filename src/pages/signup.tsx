@@ -1,4 +1,6 @@
+import { type TRPCClientError } from "@trpc/client"
 import { Form, Formik } from "formik"
+import { signIn } from "next-auth/react"
 import { useState } from "react"
 import { z } from "zod"
 import { toFormikValidationSchema } from "zod-formik-adapter"
@@ -18,7 +20,7 @@ const Signup = () => {
 
 
 
-    // const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const { mutateAsync, mutate } = api.signUp.signUp.useMutation()
 
@@ -32,7 +34,6 @@ const Signup = () => {
 
         const result = 1
 
-        mutateAsync()
 
         console.log(result, 121212);
 
@@ -51,13 +52,33 @@ const Signup = () => {
             validationSchema={toFormikValidationSchema(schema)}
 
             onSubmit={async (values, action) => {
-                console.log(2323);
 
-                const result = 1
+                try {
 
-                await mutateAsync()
+                    const result = await mutateAsync(values)
+                    console.log(result, 121212);
 
-                console.log(result, 121212);
+
+
+                    await signIn("credentials", {
+                        redirect: false,
+                        email: values.email,
+                        password: values.password,
+                    });
+
+
+                }
+                catch (error: any) {
+                    console.log(error, 121212);
+                    setError(error.message)
+                    setTimeout(() => {
+                        setError(null)
+                    }, 5000);
+
+                }
+
+                signIn
+
 
             }}
 
@@ -66,7 +87,7 @@ const Signup = () => {
             {({ errors, touched, values, handleChange }) => (
 
                 <Form className='text-black'>
-                    {/* {error && <p className='text-red-500'>{error}</p>} */}
+                    {error && <p className='text-red-500'>{error}</p>}
 
                     <Label text='name' />
                     <Input type='name'
