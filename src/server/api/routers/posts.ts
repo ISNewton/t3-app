@@ -23,6 +23,8 @@ const updatePostInput = z.object({
 
 const getActivePostInput = z.string()
 
+const deletePostInput = z.string()
+
 
 
 export const postsRouter = createTRPCRouter({
@@ -61,7 +63,7 @@ export const postsRouter = createTRPCRouter({
       }
 
       console.log('ctx.session.user.id', ctx.session.user);
-      
+
 
       return prisma.post.create({
         data: {
@@ -78,26 +80,46 @@ export const postsRouter = createTRPCRouter({
     })
   ,
   updatePost: protectedProcedure.input(updatePostInput)
-  .mutation(async ({ input, ctx }) => {
-    const postExists = await prisma.post.findFirst({
-      where: {
-        id: input.id
-      }
-    })
+    .mutation(async ({ input, ctx }) => {
+      const postExists = await prisma.post.findFirst({
+        where: {
+          id: input.id
+        }
+      })
 
-    if (!postExists) {
-      throw new Error('Post does not exist')
+      if (!postExists) {
+        throw new Error('Post does not exist')
+      }
+
+      return prisma.post.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          title: input.title,
+          description: input.description,
+          isActive: input.isActive,
+        }
+      })
+    }),
+
+  deletePost: protectedProcedure.input(z.string())
+    .mutation(async ({ input }) => {
+      const postExists = await prisma.post.findFirst({
+        where: {
+          id: input
+        }
+      })
+
+      if (!postExists) {
+        throw new Error('Post does not exist')
+      }
+
+      return prisma.post.delete({
+        where: {
+          id: input
+        }
+      })
     }
-
-    return prisma.post.update({
-      where: {
-        id: input.id
-      },
-      data: {
-        title: input.title,
-        description: input.description,
-        isActive: input.isActive,
-      }
-    })
-  }),
+    ),
 });
