@@ -6,7 +6,6 @@ import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
-  postOwnerProcedure,
 } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 
