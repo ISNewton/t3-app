@@ -2,6 +2,7 @@ import { Post } from "@prisma/client";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 type TableRowProps = {
     post: Post
@@ -10,6 +11,9 @@ type TableRowProps = {
 const TableRow = ({ post }: TableRowProps) => {
 
     const { mutateAsync } = api.posts.deletePost.useMutation()
+
+    const session = useSession()
+
 
     const router = useRouter()
 
@@ -40,6 +44,8 @@ const TableRow = ({ post }: TableRowProps) => {
             <td className="px-6 py-4">
                 {post.isActive ? 'Yes' : 'No'}
             </td>
+            {session.status === 'authenticated' && (
+
             <td className="px-6 py-4">
                 <div className="flex ">
 
@@ -59,6 +65,8 @@ const TableRow = ({ post }: TableRowProps) => {
                 </div>
 
             </td>
+            )}
+
         </tr>
     )
 }

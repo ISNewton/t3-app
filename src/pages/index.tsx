@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import TableList from "~/components/tables/table-list";
@@ -11,6 +11,7 @@ const Home = () => {
 
   const { data } = api.posts.home.useQuery()
 
+  const session = useSession()
 
 
 
@@ -25,13 +26,15 @@ const Home = () => {
       <div className="w-100">
 
         <h1 className="text-black text-lg my-3 text-center">Posts available</h1>
+        {session.status === 'authenticated' && (
+          <Button className="my-8 ">
+            <Link href={{
+              pathname: '/posts/create',
+            }}>Add post</Link>
 
-        <Button className="my-8 ">
-          <Link href={{
-            pathname: '/posts/create',
-          }}>Add post</Link>
+          </Button>
+        )}
 
-        </Button>
 
 
         <div className="flex flex-col">
