@@ -18,7 +18,11 @@ const createPostInput = z.object({
 export const postsRouter = createTRPCRouter({
   home: publicProcedure.query(({ input }) => {
 
-    return prisma.post.findMany()
+    return prisma.post.findMany({
+      where: {
+        isActive: true
+      }
+    })
 
   }),
   createPost: protectedProcedure
