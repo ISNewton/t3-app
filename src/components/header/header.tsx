@@ -7,9 +7,6 @@ const Header = () => {
 
     const { data: session, status } = useSession()
 
-    console.log(session, status);
-
-
 
 
     return (

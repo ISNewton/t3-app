@@ -4,8 +4,9 @@ import { z } from 'zod';
 import Input from '~/components/forms/Input';
 import Button from '~/components/buttons/Button';
 import Label from '~/components/forms/Label';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { useState } from 'react';
+import { GetServerSidePropsContext } from 'next';
 const Login = () => {
     // const { login } = useAuth();
     const [error, setError] = useState<string | null>(null);
@@ -27,9 +28,8 @@ const Login = () => {
             password: values.password,
         });
 
-        console.log(result);
 
-        if(!result?.ok) {
+        if (!result?.ok) {
             setError("البريد الالكتروني او كلمة المرور غير صحيحة");
 
             setTimeout(() => {
@@ -94,4 +94,25 @@ const Login = () => {
     );
 };
 
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+
+    const result = await getSession(context)
+
+    if (!result) {
+        return {
+            redirect: {
+                destination: "/",
+            },
+        }
+    }
+
+
+
+    return {
+        props: {
+            session: result,
+            ...context
+        }
+    }
+}
 export default Login;
