@@ -24,9 +24,14 @@ const Home = () => {
 
       <div className="w-100">
 
-        <h1 className="text-black text-lg my-3 text-center">Products available</h1>
+        <h1 className="text-black text-lg my-3 text-center">Posts available</h1>
 
-        <Button className="my-8 ">Add product</Button>
+        <Button className="my-8 ">
+          <Link href={{
+            pathname: '/posts/create',
+          }}>Add post</Link>
+
+        </Button>
 
 
         <div className="flex flex-col">
@@ -34,7 +39,7 @@ const Home = () => {
           <TableList data={[{ id: 23, name: 'my name' }]} />
 
         </div>
-      </div>
+      </div >
 
     </>
   );

@@ -6,7 +6,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
     placeholder?: string;
     touched?: any
     error?: any
-    name?: string
+    name?: string,
 }
 const Input = ({ type, className, touched, error, ...props }: InputProps) => {
 

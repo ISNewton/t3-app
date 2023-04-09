@@ -1,5 +1,5 @@
 interface ButtonType {
-    children: string,
+    children: any,
     type?:  "button" | "submit" | "reset"
     className?: string
 }
