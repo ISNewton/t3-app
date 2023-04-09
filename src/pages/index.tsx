@@ -36,7 +36,7 @@ const Home = () => {
 
         <div className="flex flex-col">
 
-          <TableList data={[{ id: 23, name: 'my name' }]} />
+          <TableList posts={data ?? []} />
 
         </div>
       </div >

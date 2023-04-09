@@ -2,14 +2,15 @@ import { NextComponentType } from "next";
 
 import React from "react";
 import TableRow from "./table-item";
+import { Post } from "@prisma/client";
 
-interface TableListProps {
-    data: {
-        id: number;
-        name: string;
-    }[]
+
+type TableListProps = {
+    posts: Post[]
 }
-const TableList: React.FC<TableListProps> = ({ data }) => {
+
+const TableList = (props:TableListProps) => {
+    
     return (
        
 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -17,16 +18,16 @@ const TableList: React.FC<TableListProps> = ({ data }) => {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
-                    Product name
+                    ID
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Color
+                    Post title
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Category
+                    Description
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Price
+                    Is active
                 </th>
                 <th scope="col" className="px-6 py-3">
                     Action
@@ -34,8 +35,10 @@ const TableList: React.FC<TableListProps> = ({ data }) => {
             </tr>
         </thead>
         <tbody>
-            {data.map((row) => <TableRow key={row.id} row={row} />)}
-            
+
+            {props.posts.map((post) => (
+                <TableRow key={post.id} post={post} />
+            ))}
            
         </tbody>
     </table>
