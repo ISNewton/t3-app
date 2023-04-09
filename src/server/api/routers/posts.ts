@@ -14,7 +14,14 @@ const createPostInput = z.object({
   isActive: z.boolean()
 })
 
-const getActivePostInput =  z.string()
+const updatePostInput = z.object({
+  id: z.string(),
+  title: z.string().min(3),
+  description: z.string().min(10),
+  isActive: z.boolean()
+})
+
+const getActivePostInput = z.string()
 
 
 
@@ -30,7 +37,7 @@ export const postsRouter = createTRPCRouter({
   }),
   getActivePost: publicProcedure
     .input(getActivePostInput)
-    .query(({ input:id }) => {
+    .query(({ input: id }) => {
       return prisma.post.findFirst({
         where: {
           id,
@@ -67,4 +74,27 @@ export const postsRouter = createTRPCRouter({
       })
     })
   ,
+  updatePost: protectedProcedure.input(updatePostInput)
+  .mutation(async ({ input, ctx }) => {
+    const postExists = await prisma.post.findFirst({
+      where: {
+        id: input.id
+      }
+    })
+
+    if (!postExists) {
+      throw new Error('Post does not exist')
+    }
+
+    return prisma.post.update({
+      where: {
+        id: input.id
+      },
+      data: {
+        title: input.title,
+        description: input.description,
+        isActive: input.isActive,
+      }
+    })
+  }),
 });
